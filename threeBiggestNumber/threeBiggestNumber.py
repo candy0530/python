@@ -12,39 +12,41 @@ def fileChangeToNumberArray(fileName):
         numberArray[x] = (int)(numberArray[x])
     return numberArray
 
-def sort(numberArray):
+def findThreeBiggestNumber(numberArray):
     biggestNumber=numberArray[0]
-    smallestNumber=numberArray[0]
     for number in numberArray:
         if number > biggestNumber:
             biggestNumber=number
-        elif number < smallestNumber:
-            smallestNumber=number
 
-    sortedNumber = []
-    for x in range(smallestNumber, biggestNumber+1):
-        if (x in numberArray):
-            sortedNumber.append(x)
-            
-    return sortedNumber
+    threeBiggestNumber = [biggestNumber]
+    numberArray.remove(biggestNumber)
 
-def writeThreeBiggestNumberIntoFile(sortedArray, outputFileName='answer.dat'):
+    index = biggestNumber
+    while(len(threeBiggestNumber) < 3):
+        if(index in numberArray):
+            threeBiggestNumber.append(index)
+            numberArray.remove(index)
+        else:
+            index-=1
+
+    return threeBiggestNumber
+
+def writeThreeBiggestNumberIntoFile(threeBiggestNumber, outputFileName='answer.dat'):
     f = open(outputFileName, 'w')
-    f.write((str)(sortedArray.pop())+'\n')
-    f.write((str)(sortedArray.pop())+'\n')
-    f.write((str)(sortedArray.pop())+'\n')
+    threeBiggestNumber.reverse()
+    f.write((str)(threeBiggestNumber.pop())+'\n')
+    f.write((str)(threeBiggestNumber.pop())+'\n')
+    f.write((str)(threeBiggestNumber.pop())+'\n')
     f.closed
 
 if __name__ == '__main__':
     inputFileName = sys.argv[1]
     numberArray = fileChangeToNumberArray(inputFileName)
-    print numberArray
-    sortedNumber = sort(numberArray)
-    print sortedNumber
     outputFileName = 'answer_'+inputFileName
-    writeThreeBiggestNumberIntoFile(sortedNumber, outputFileName)
+    threeBiggestNumber = findThreeBiggestNumber(numberArray)
+    writeThreeBiggestNumberIntoFile(threeBiggestNumber, outputFileName)
     with open(outputFileName, 'r') as f:
         for line in f:
             print line
     f.closed
-    
+
