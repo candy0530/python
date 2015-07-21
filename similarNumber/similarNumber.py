@@ -1,13 +1,8 @@
 def similarNumbers(N):
     import math
     a = getNumber(N)
-    result = 1
-    if '0' in a:
-        result = (sum(a.values())-a['0'])*math.factorial(sum(a.values())-1)
-        for x in a.values():
-            result /= math.factorial(x)
-        return result
-    result = math.factorial(sum(a.values()))
+    zero_number = a['0'] if '0' in a else 0
+    result = (sum(a.values())-zero_number)*math.factorial(sum(a.values())-1)
     for x in a.values():
         result /= math.factorial(x)
     return result
